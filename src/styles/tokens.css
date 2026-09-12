@@ -1,0 +1,61 @@
+:root {
+  /* Color system */
+  --bg: #0f1115;
+  --surface: #171a20;
+  --surface-elevated: #1e222a;
+  --surface-hover: #242932;
+  --primary: #35c98a;
+  --primary-strong: #2bb57a;
+  --primary-soft: #a5e8c7;
+  --primary-dim: rgba(53, 201, 138, 0.14);
+  --text: #f4f6f5;
+  --text-secondary: #9ba3a0;
+  --text-muted: #6b7572;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --amber: #eab063;
+  --amber-dim: rgba(234, 176, 99, 0.14);
+  --red: #e0697a;
+  --red-dim: rgba(224, 105, 122, 0.14);
+  --blue: #7fb4e8;
+  --blue-dim: rgba(127, 180, 232, 0.14);
+
+  /* Typography */
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  /* Sizing */
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 20px;
+  --radius-xl: 28px;
+  --ring: 0 0 0 3px rgba(53, 201, 138, 0.35);
+
+  /* Shadows */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-3: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-med: 220ms;
+
+  --nav-height: 64px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --max-width: 640px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-med: 0ms;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
