@@ -23,9 +23,8 @@ import {
   startOfMonth,
   todayISO,
 } from '../lib/date'
-import { Button } from '../components/ui/Button'
 import { Icon } from '../components/ui/Icon'
-import { EmptyState } from '../components/ui/Widgets'
+import { EmptyState, Segmented } from '../components/ui/Widgets'
 
 type Period = 'week' | 'month' | 'all'
 
@@ -35,10 +34,10 @@ interface Range {
   label: string
 }
 
-function periodRange(period: Period): Range {
+function periodRange(period: Period, weekStartDay: 0 | 1): Range {
   const today = todayISO()
   if (period === 'week') {
-    const fw = fullCurrentWeek(1)
+    const fw = fullCurrentWeek(weekStartDay)
     return { start: fw.start, end: today, label: 'This week' }
   }
   if (period === 'month') {
@@ -57,7 +56,7 @@ export function InsightsScreen() {
   const settings = useBalancioStore((s) => s.settings)
   const [period, setPeriod] = useState<Period>('week')
 
-  const range = useMemo(() => periodRange(period), [period])
+  const range = useMemo(() => periodRange(period, settings.weekStartDay), [period, settings.weekStartDay])
 
   const stats = useMemo(
     () => rangeStats(transactions, range.start, range.end),
@@ -111,22 +110,18 @@ export function InsightsScreen() {
 
   return (
     <div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
-        <Button
-          variant={period === 'week' ? 'soft' : 'ghost'}
-          size="sm"
-          onClick={() => setPeriod('week')}
-        >
-          This week
-        </Button>
-        <Button
-          variant={period === 'month' ? 'soft' : 'ghost'}
-          size="sm"
-          onClick={() => setPeriod('month')}
-        >
-          This month
-        </Button>
-      </div>
+      <Segmented
+        value={period}
+        onChange={(v) => setPeriod(v as Period)}
+        options={[
+          { value: 'week', label: 'This week' },
+          { value: 'month', label: 'This month' },
+          { value: 'all', label: 'All time' },
+        ]}
+        ariaLabel="Insight period"
+      />
+
+      <div style={{ height: 8 }} />
 
       <div className="metric-grid" style={{ marginBottom: 14 }}>
         <div className="metric">
