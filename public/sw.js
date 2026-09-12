@@ -1,5 +1,11 @@
 const CACHE = 'balancio-v1'
-const CORE = ['/', '/index.html', '/manifest.webmanifest', '/icon-180.png', '/icon-512.png', '/icon.svg']
+
+// sw.js is served at the deployment base (e.g. /BALANCIO/sw.js), so derive the
+// app root from the script URL instead of assuming "/".
+const BASE = self.location.pathname.replace(/sw\.js$/, '')
+const CORE = ['index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-512.png', 'icon.svg'].map(
+  (file) => `${BASE}${file}`,
+)
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -39,7 +45,7 @@ self.addEventListener('fetch', (event) => {
           return res
         })
         .catch(() =>
-          caches.match(req).then((hit) => (hit ? hit : caches.match('/index.html'))),
+          caches.match(req).then((hit) => (hit ? hit : caches.match(`${BASE}index.html`))),
         ),
     )
     return
